@@ -527,6 +527,158 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════
+       HERO — Phase 2
+       One page-load animation sequence. Runs once, never repeats.
+       Each element fades up with a short stagger.
+       "both" fill-mode: element starts invisible (before delay),
+       stays visible (after animation ends).
+    ═══════════════════════════════════════════════════════════════ */
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100svh;    /* svh = small viewport height, better on mobile */
+      padding-top: var(--nav-height);
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-10);
+      padding-block: var(--sp-16);
+      width: 100%;
+    }
+
+    @media (min-width: 900px) {
+      .hero__grid {
+        grid-template-columns: 1fr 380px;
+        gap: var(--sp-16);
+        padding-block: var(--sp-24);
+        align-items: center;
+      }
+    }
+
+    /* ── Text column ── */
+    .hero__content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero__eyebrow {
+      font-size: var(--text-sm);
+      font-weight: 400;
+      color: var(--text-3);
+      margin-bottom: var(--sp-4);
+      animation: fadeUp 0.55s ease 0.08s both;
+    }
+
+    .hero__name {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 600;
+      color: var(--text-1);
+      line-height: 1.06;
+      letter-spacing: -0.025em;
+      margin-bottom: var(--sp-5);
+      animation: fadeUp 0.55s ease 0.18s both;
+    }
+
+    .hero__headline {
+      font-size: clamp(var(--text-lg), 2.2vw, var(--text-xl));
+      font-weight: 300;
+      color: var(--text-2);
+      line-height: 1.6;
+      max-width: 44ch;
+      margin-bottom: var(--sp-5);
+      animation: fadeUp 0.55s ease 0.28s both;
+    }
+
+    /* Thin rule — visual breath between headline and bio */
+    .hero__rule {
+      width: 28px;
+      height: 1px;
+      background: var(--border-2);
+      margin-bottom: var(--sp-5);
+      animation: fadeUp 0.55s ease 0.33s both;
+    }
+
+    .hero__bio {
+      font-size: var(--text-base);
+      font-weight: 300;
+      color: var(--text-2);
+      line-height: 1.8;
+      max-width: 50ch;
+      margin-bottom: var(--sp-8);
+      animation: fadeUp 0.55s ease 0.38s both;
+    }
+
+    .hero__ctas {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-5);
+      animation: fadeUp 0.55s ease 0.48s both;
+    }
+
+    .hero__github {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: var(--text-sm);
+      font-weight: 400;
+      color: var(--text-3);
+      text-decoration: none;
+      transition: color var(--t-fast);
+      animation: fadeUp 0.55s ease 0.56s both;
+    }
+
+    .hero__github:hover { color: var(--accent); }
+
+    .hero__github:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    .hero__github svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+
+    /* ── Visual column ── */
+    .hero__visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeUp 0.7s ease 0.42s both;
+    }
+
+    .hero__diagram {
+      width: 100%;
+      max-width: 340px;
+    }
+
+    @media (max-width: 899px) {
+      /* On mobile, diagram sits below text and is smaller */
+      .hero__visual { order: 1; }
+      .hero__diagram {
+        max-width: 240px;
+        margin-inline: auto;
+        opacity: 0.7;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
        REDUCED MOTION
        Every animation and transition respects this.
        Added now so all future phases inherit it automatically.
@@ -603,9 +755,118 @@
   ═══════════════════════════════════════════════════════════════ -->
   <main id="main-content">
 
-    <section id="home" class="ph-section" style="padding-top: var(--nav-height);">
+    <!-- ════════════════════════════════════════════════════════════
+         HERO — Phase 2
+    ════════════════════════════════════════════════════════════ -->
+    <section id="home" class="hero">
       <div class="container">
-        <p class="ph-label">[ hero — coming in phase 2 ]</p>
+        <div class="hero__grid">
+
+          <!-- Left: text content -->
+          <div class="hero__content">
+
+            <p class="hero__eyebrow">Electrical &amp; Electronics Engineering Student</p>
+
+            <h1 class="hero__name">Prince Kalu Odoh</h1>
+
+            <p class="hero__headline">
+              Building practical technology across Frontend,
+              AI/ML, and digital systems.
+            </p>
+
+            <div class="hero__rule"></div>
+
+            <p class="hero__bio">
+              EEE student at Michael Okpara University of Agriculture, Umudike —
+              developing real solutions through frontend development, AI/ML, and
+              systems thinking. Working toward the intersection of software,
+              networks, and hardware.
+            </p>
+
+            <div class="hero__ctas">
+              <a href="#projects" class="btn btn--primary">View My Projects</a>
+              <a href="#contact"  class="btn btn--ghost">Let's Connect</a>
+            </div>
+
+            <a
+              href="https://github.com/princeodoh566"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hero__github"
+              aria-label="GitHub profile: princeodoh566"
+            >
+              <!-- GitHub icon -->
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+              </svg>
+              github.com/princeodoh566
+            </a>
+
+          </div>
+
+          <!-- Right: technical node diagram
+               Represents the technical direction: five interconnected areas.
+               aria-hidden because it's decorative — the text communicates the same thing.
+          -->
+          <div class="hero__visual" aria-hidden="true">
+            <svg
+              class="hero__diagram"
+              viewBox="0 0 380 290"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label="Diagram showing Frontend, AI/ML, Networks, Hardware, and Systems as interconnected nodes"
+            >
+              <!-- Dot grid — engineering graph-paper texture -->
+              <defs>
+                <pattern id="dot-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+                  <circle cx="12" cy="12" r="0.7" fill="#2E2E2B" />
+                </pattern>
+              </defs>
+              <rect width="380" height="290" fill="url(#dot-grid)" />
+
+              <!-- Connection lines (drawn first, sit behind nodes) -->
+              <line x1="190" y1="48"  x2="65"  y2="148" stroke="#2E2E2B" stroke-width="1.5" />
+              <line x1="190" y1="48"  x2="315" y2="148" stroke="#2E2E2B" stroke-width="1.5" />
+              <line x1="65"  y1="148" x2="110" y2="248" stroke="#2E2E2B" stroke-width="1.5" />
+              <line x1="315" y1="148" x2="275" y2="248" stroke="#2E2E2B" stroke-width="1.5" />
+              <line x1="110" y1="248" x2="275" y2="248" stroke="#2E2E2B" stroke-width="1.5" />
+              <!-- Cross-connection: dashed, lower visual weight -->
+              <line x1="65"  y1="148" x2="275" y2="248" stroke="#2E2E2B" stroke-width="1" stroke-dasharray="4 4" />
+
+              <!-- Amber accent on primary focus connections (Frontend is current main work) -->
+              <line x1="190" y1="48"  x2="65"  y2="148" stroke="#D4A843" stroke-width="1" opacity="0.45" />
+              <line x1="190" y1="48"  x2="315" y2="148" stroke="#D4A843" stroke-width="1" opacity="0.25" />
+
+              <!-- Node: Frontend — accent because it's the current active focus -->
+              <circle cx="190" cy="48"  r="7" fill="#2A2210" stroke="#D4A843" stroke-width="1.5" />
+              <circle cx="190" cy="48"  r="3"  fill="#D4A843" />
+
+              <!-- Node: AI / ML -->
+              <circle cx="65"  cy="148" r="6" fill="#1C1C1A" stroke="#3A3A36" stroke-width="1.5" />
+              <circle cx="65"  cy="148" r="2.5" fill="#505048" />
+
+              <!-- Node: Networks -->
+              <circle cx="315" cy="148" r="6" fill="#1C1C1A" stroke="#3A3A36" stroke-width="1.5" />
+              <circle cx="315" cy="148" r="2.5" fill="#505048" />
+
+              <!-- Node: Hardware -->
+              <circle cx="110" cy="248" r="6" fill="#1C1C1A" stroke="#3A3A36" stroke-width="1.5" />
+              <circle cx="110" cy="248" r="2.5" fill="#505048" />
+
+              <!-- Node: Systems -->
+              <circle cx="275" cy="248" r="6" fill="#1C1C1A" stroke="#3A3A36" stroke-width="1.5" />
+              <circle cx="275" cy="248" r="2.5" fill="#505048" />
+
+              <!-- Labels — monospace, muted, only just readable -->
+              <text x="190" y="28"  text-anchor="middle" font-size="11" font-family="IBM Plex Mono, monospace" fill="#888880">Frontend</text>
+              <text x="52"  y="144" text-anchor="end"    font-size="11" font-family="IBM Plex Mono, monospace" fill="#888880">AI / ML</text>
+              <text x="328" y="144" text-anchor="start"  font-size="11" font-family="IBM Plex Mono, monospace" fill="#888880">Networks</text>
+              <text x="110" y="270" text-anchor="middle" font-size="11" font-family="IBM Plex Mono, monospace" fill="#888880">Hardware</text>
+              <text x="275" y="270" text-anchor="middle" font-size="11" font-family="IBM Plex Mono, monospace" fill="#888880">Systems</text>
+            </svg>
+          </div>
+
+        </div>
       </div>
     </section>
 
