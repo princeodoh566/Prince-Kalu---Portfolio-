@@ -952,6 +952,277 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════
+       PROJECTS — Phase 5
+       Full-width cards: image left (fixed) + content right on desktop,
+       stacked on mobile. Nollywood uses a code preview instead of
+       a screenshot since it's a Python/Colab notebook, not a web app.
+    ═══════════════════════════════════════════════════════════════ */
+
+    .projects__list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-6);
+    }
+
+    /* Card shell */
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--surface);
+      transition: border-color var(--t-base);
+    }
+
+    .project-card:hover {
+      border-color: var(--border-2);
+    }
+
+    /* Two-column inner grid */
+    .project-card__inner {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 768px) {
+      .project-card__inner {
+        grid-template-columns: 380px 1fr;
+        min-height: 300px;
+      }
+    }
+
+    /* Image column */
+    .project-card__img-wrap {
+      background: var(--surface-2);
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+      position: relative;
+    }
+
+    @media (min-width: 768px) {
+      .project-card__img-wrap {
+        aspect-ratio: unset; /* fills the full card height */
+      }
+    }
+
+    .project-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Code preview variant — for Nollywood (no app screenshot) */
+    .project-card__img-wrap--code {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--sp-8) var(--sp-6);
+    }
+
+    .project-card__code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-3);
+      line-height: 1.9;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .project-card__code p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Keyword highlighting in code preview */
+    .code-kw { color: var(--accent); }
+    .code-fn { color: #7aa2f7; } /* subtle blue for function names */
+
+    /* Content column */
+    .project-card__body {
+      padding: var(--sp-7) var(--sp-8);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+      border-left: 1px solid var(--border);
+    }
+
+    @media (max-width: 767px) {
+      .project-card__body {
+        border-left: none;
+        border-top: 1px solid var(--border);
+      }
+    }
+
+    /* Header: title + status dot */
+    .project-card__header {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-1);
+    }
+
+    .project-card__title {
+      font-size: var(--text-xl);
+      font-weight: 600;
+      color: var(--text-1);
+      line-height: 1.2;
+    }
+
+    /* One-liner: bold summary in secondary colour */
+    .project-card__tagline {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--text-2);
+      line-height: 1.5;
+    }
+
+    /* Brief description — brief says no huge paragraphs in cards */
+    .project-card__desc {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--text-2);
+      line-height: 1.75;
+      flex: 1; /* pushes tech + links down */
+    }
+
+    /* Tech tags */
+    .project-card__tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+      padding-top: var(--sp-3);
+    }
+
+    /* Action links — separated by a top border */
+    .project-card__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+      padding-top: var(--sp-4);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       PROJECTS — Phase 5
+       Horizontal card layout: visual left, content right.
+       Full-width cards stacked — gives each project room to communicate.
+       btn--sm is a smaller button variant for use inside cards.
+    ═══════════════════════════════════════════════════════════════ */
+
+    .projects__list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-6);
+    }
+
+    /* The card itself: two columns on desktop, stacked on mobile */
+    .project-card {
+      display: grid;
+      grid-template-columns: 1fr;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--surface);
+      transition: border-color var(--t-base);
+    }
+
+    .project-card:hover {
+      border-color: var(--border-2);
+    }
+
+    @media (min-width: 640px) {
+      .project-card {
+        grid-template-columns: 2fr 3fr;
+      }
+    }
+
+    /* Visual area: image or SVG illustration */
+    .project-card__visual {
+      min-height: 200px;
+      background: var(--surface-2);
+      overflow: hidden;
+      display: flex;
+      align-items: stretch;
+    }
+
+    .project-card__visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    .project-card__visual svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Content area */
+    .project-card__body {
+      padding: var(--sp-6) var(--sp-7);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+    }
+
+    .project-card__title {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      color: var(--text-1);
+      line-height: 1.2;
+    }
+
+    .project-card__desc {
+      font-size: var(--text-base);
+      font-weight: 400;
+      color: var(--text-2);
+      line-height: 1.65;
+    }
+
+    /* Left-border block for the problem statement */
+    .project-card__problem {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--text-2);
+      line-height: 1.75;
+      border-left: 2px solid var(--border-2);
+      padding-left: var(--sp-4);
+      margin: 0;
+    }
+
+    /* Small italic note — e.g. evolution of StreetKash */
+    .project-card__note {
+      font-size: var(--text-xs);
+      font-weight: 300;
+      color: var(--text-3);
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    .project-card__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+    }
+
+    .project-card__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+      margin-top: auto;
+      padding-top: var(--sp-2);
+    }
+
+    /* Smaller button variant for use inside project cards */
+    .btn--sm {
+      padding: 7px var(--sp-4);
+      font-size: var(--text-xs);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
        REDUCED MOTION
        Every animation and transition respects this.
        Added now so all future phases inherit it automatically.
@@ -1284,9 +1555,241 @@
       </div>
     </section>
 
-    <section id="projects" class="ph-section">
+    <!-- ════════════════════════════════════════════════════════════
+         PROJECTS — Phase 5
+    ════════════════════════════════════════════════════════════ -->
+    <section id="projects" class="section" style="border-bottom: 1px solid var(--border);">
       <div class="container">
-        <p class="ph-label">[ projects — coming in phase 5 ]</p>
+
+        <div class="section-header reveal">
+          <h2 class="section-title">Projects</h2>
+          <p class="section-sub">Real problems, real builds. Status is labeled honestly.</p>
+        </div>
+
+        <div class="projects__list">
+
+          <!-- ── PROJECT 1: StreetKash ── -->
+          <article class="project-card reveal" aria-label="StreetKash project">
+            <div class="project-card__visual" aria-hidden="true">
+              <!--
+                Inline SVG: sponsored public WiFi concept visualization.
+                Shows a broadcast access point serving multiple users —
+                communicates the connectivity infrastructure direction.
+              -->
+              <svg viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  <pattern id="sk-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <circle cx="10" cy="10" r="0.6" fill="#2E2E2B"/>
+                  </pattern>
+                </defs>
+                <rect width="480" height="280" fill="#1C1C1A"/>
+                <rect width="480" height="280" fill="url(#sk-grid)"/>
+
+                <!-- Access point pole -->
+                <line x1="240" y1="60" x2="240" y2="180" stroke="#2E2E2B" stroke-width="2"/>
+                <line x1="218" y1="80" x2="262" y2="80" stroke="#2E2E2B" stroke-width="1.5"/>
+
+                <!-- WiFi broadcast arcs — amber -->
+                <path d="M 240 120 m -70 0 a 70 70 0 0 1 140 0"
+                      fill="none" stroke="#D4A843" stroke-width="1.5"
+                      stroke-linecap="round" opacity="0.4"/>
+                <path d="M 240 120 m -44 0 a 44 44 0 0 1 88 0"
+                      fill="none" stroke="#D4A843" stroke-width="1.5"
+                      stroke-linecap="round" opacity="0.65"/>
+                <path d="M 240 120 m -22 0 a 22 22 0 0 1 44 0"
+                      fill="none" stroke="#D4A843" stroke-width="2"
+                      stroke-linecap="round" opacity="0.9"/>
+                <circle cx="240" cy="120" r="4" fill="#D4A843"/>
+
+                <!-- User nodes -->
+                <circle cx="100" cy="210" r="7" fill="#1C1C1A" stroke="#3A3A36" stroke-width="1.5"/>
+                <circle cx="165" cy="222" r="7" fill="#1C1C1A" stroke="#3A3A36" stroke-width="1.5"/>
+                <circle cx="240" cy="226" r="7" fill="#1C1C1A" stroke="#3A3A36" stroke-width="1.5"/>
+                <circle cx="315" cy="222" r="7" fill="#1C1C1A" stroke="#3A3A36" stroke-width="1.5"/>
+                <circle cx="380" cy="210" r="7" fill="#1C1C1A" stroke="#3A3A36" stroke-width="1.5"/>
+
+                <!-- Connection lines from AP to users -->
+                <line x1="240" y1="180" x2="100"  y2="203" stroke="#2E2E2B" stroke-width="1" stroke-dasharray="4 3"/>
+                <line x1="240" y1="180" x2="165"  y2="215" stroke="#2E2E2B" stroke-width="1" stroke-dasharray="4 3"/>
+                <line x1="240" y1="180" x2="240"  y2="219" stroke="#2E2E2B" stroke-width="1" stroke-dasharray="4 3"/>
+                <line x1="240" y1="180" x2="315"  y2="215" stroke="#2E2E2B" stroke-width="1" stroke-dasharray="4 3"/>
+                <line x1="240" y1="180" x2="380"  y2="203" stroke="#2E2E2B" stroke-width="1" stroke-dasharray="4 3"/>
+
+                <!-- Labels -->
+                <text x="240" y="50"  text-anchor="middle" font-size="10" font-family="IBM Plex Mono, monospace" fill="#505048">sponsored access point</text>
+                <text x="240" y="258" text-anchor="middle" font-size="9"  font-family="IBM Plex Mono, monospace" fill="#505048">public users</text>
+              </svg>
+            </div>
+
+            <div class="project-card__body">
+              <span class="status status--prototype">Prototype · Evolving</span>
+              <h3 class="project-card__title">StreetKash</h3>
+              <p class="project-card__desc">
+                Sponsored public WiFi access for high-traffic locations in Abia State.
+              </p>
+              <p class="project-card__problem">
+                Reliable internet at busy public locations — bus terminals, markets — is
+                expensive or absent. StreetKash explores a model where local businesses
+                sponsor WiFi access points for their surrounding area, creating free
+                connectivity in exchange for exposure.
+              </p>
+              <p class="project-card__note">
+                Originally conceived as a reward-based streetlight advertising system.
+                Current direction focuses on sponsored captive portal infrastructure.
+                Top 10 — Abia 3MTT NextGen Knowledge Showcase.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">Concept</span>
+                <span class="tag">React</span>
+                <span class="tag">Captive Portal</span>
+                <span class="tag">Network Design</span>
+              </div>
+              <div class="project-card__links">
+                <a
+                  href="https://streetkash-mvp-1.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn--ghost btn--sm"
+                  aria-label="View StreetKash early MVP (opens in new tab)"
+                >View early MVP ↗</a>
+                <a
+                  href="https://github.com/princeodoh566/Streetkash-mvp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn--ghost btn--sm"
+                  aria-label="View StreetKash on GitHub (opens in new tab)"
+                >GitHub ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- ── PROJECT 2: Nollywood Movie Recommender ── -->
+          <article class="project-card reveal" style="transition-delay: 0.1s;" aria-label="Nollywood Movie Recommender project">
+            <div class="project-card__visual" aria-hidden="true">
+              <!--
+                Inline SVG: content-based filtering concept.
+                Shows a set of film entries with one recommended result
+                highlighted — communicates recommendation logic visually.
+              -->
+              <svg viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  <pattern id="nl-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <circle cx="10" cy="10" r="0.6" fill="#2E2E2B"/>
+                  </pattern>
+                </defs>
+                <rect width="480" height="280" fill="#1C1C1A"/>
+                <rect width="480" height="280" fill="url(#nl-grid)"/>
+
+                <!-- Input film rectangles — muted -->
+                <rect x="30"  y="70" width="52" height="76" rx="2" fill="#252522" stroke="#2E2E2B" stroke-width="1"/>
+                <rect x="94"  y="70" width="52" height="76" rx="2" fill="#252522" stroke="#2E2E2B" stroke-width="1"/>
+                <rect x="158" y="70" width="52" height="76" rx="2" fill="#252522" stroke="#2E2E2B" stroke-width="1"/>
+                <rect x="222" y="70" width="52" height="76" rx="2" fill="#252522" stroke="#2E2E2B" stroke-width="1"/>
+
+                <!-- TF-IDF label -->
+                <text x="150" y="165" text-anchor="middle" font-size="9" font-family="IBM Plex Mono, monospace" fill="#505048">TF-IDF vectorization</text>
+
+                <!-- Arrow to recommendation -->
+                <line x1="310" y1="108" x2="345" y2="108" stroke="#D4A843" stroke-width="1.5" opacity="0.7"/>
+                <polygon points="345,103 355,108 345,113" fill="#D4A843" opacity="0.7"/>
+
+                <!-- Recommended result — amber accent -->
+                <rect x="368" y="55" width="80" height="110" rx="2" fill="#2A2210" stroke="#D4A843" stroke-width="1.5"/>
+                <text x="408" y="88"  text-anchor="middle" font-size="8" font-family="IBM Plex Mono, monospace" fill="#D4A843">recommended</text>
+                <text x="408" y="105" text-anchor="middle" font-size="7" font-family="IBM Plex Mono, monospace" fill="#888880">similarity</text>
+                <text x="408" y="118" text-anchor="middle" font-size="11" font-family="IBM Plex Mono, monospace" fill="#D4A843">0.87</text>
+
+                <!-- cosine similarity label -->
+                <text x="240" y="210" text-anchor="middle" font-size="9" font-family="IBM Plex Mono, monospace" fill="#505048">cosine similarity · Python · Pandas</text>
+              </svg>
+            </div>
+
+            <div class="project-card__body">
+              <span class="status status--completed">Completed</span>
+              <h3 class="project-card__title">Nollywood Movie Recommender</h3>
+              <p class="project-card__desc">
+                Content-based film recommendation system built for Nollywood titles using AI/ML.
+              </p>
+              <p class="project-card__problem">
+                Standard recommendation datasets focus on Hollywood. This project explores
+                whether a content-based filtering approach — using TF-IDF vectorization and
+                cosine similarity — can surface relevant Nollywood films from a local dataset.
+                Built as the 3MTT NextGen capstone project.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">Python</span>
+                <span class="tag">TF-IDF</span>
+                <span class="tag">Cosine Similarity</span>
+                <span class="tag">Pandas</span>
+                <span class="tag">Google Colab</span>
+              </div>
+              <div class="project-card__links">
+                <a
+                  href="https://github.com/princeodoh566/nollywood-movie-recommender"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn--ghost btn--sm"
+                  aria-label="View Nollywood Movie Recommender on GitHub (opens in new tab)"
+                >GitHub ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- ── PROJECT 3: PCN Redemption Parish ── -->
+          <article class="project-card reveal" style="transition-delay: 0.2s;" aria-label="PCN Redemption Parish website project">
+            <div class="project-card__visual">
+              <!--
+                ADD SCREENSHOT:
+                1. Take a screenshot of redemption-pcn.vercel.app
+                2. Save it as "church-website.jpg" in the same folder as index.html
+                3. Replace these two comment lines with:
+                   <img src="church-website.jpg"
+                        alt="PCN Redemption Parish website — homepage"
+                        loading="lazy" />
+                The surface-2 background above shows as a dark placeholder until the image is added.
+              -->
+            </div>
+
+            <div class="project-card__body">
+              <span class="status status--active">Live</span>
+              <h3 class="project-card__title">Redemption Parish — PCN</h3>
+              <p class="project-card__desc">
+                Official website for Presbyterian Church of Nigeria, Redemption Parish, Umuahia.
+              </p>
+              <p class="project-card__problem">
+                A church community needed a complete digital presence — sermon archive,
+                event calendar, ministry pages, and a giving system. Designed and built
+                as sole developer, deployed on Vercel.
+              </p>
+              <div class="project-card__tags">
+                <span class="tag">TypeScript</span>
+                <span class="tag">Next.js</span>
+                <span class="tag">Supabase</span>
+                <span class="tag">Tailwind CSS</span>
+                <span class="tag">Vercel</span>
+                <span class="tag">Paystack</span>
+              </div>
+              <div class="project-card__links">
+                <a
+                  href="https://redemption-pcn.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn--primary btn--sm"
+                  aria-label="View Redemption Parish website live (opens in new tab)"
+                >View Site ↗</a>
+                <a
+                  href="https://github.com/princeodoh566/Redemption-pcn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn--ghost btn--sm"
+                  aria-label="View Redemption Parish on GitHub (opens in new tab)"
+                >GitHub ↗</a>
+              </div>
+            </div>
+          </article>
+
+        </div><!-- /projects__list -->
+
       </div>
     </section>
 
