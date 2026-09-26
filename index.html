@@ -8,10 +8,27 @@
   <title>Prince Kalu Odoh | Frontend, AI/ML & Technology Systems</title>
   <meta name="description" content="Electrical & Electronics Engineering student building practical technology across frontend development, AI/ML, and digital systems." />
 
+  <!-- ── Favicon: amber "P" on dark square — no external file needed ── -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%23D4A843'/><text x='16' y='23' text-anchor='middle' font-size='18' font-family='system-ui,sans-serif' font-weight='700' fill='%23111110'>P</text></svg>" />
+
+  <!-- ── Canonical — update this URL if a custom domain is added later ── -->
+  <link rel="canonical" href="https://prince-kalu-portfolio-3p8f.vercel.app" />
+
   <!-- ── Open Graph ── -->
   <meta property="og:title"       content="Prince Kalu Odoh | Frontend, AI/ML & Technology Systems" />
   <meta property="og:description" content="Electrical & Electronics Engineering student building practical technology across frontend development, AI/ML, and digital systems." />
   <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://prince-kalu-portfolio-3p8f.vercel.app" />
+  <!--
+    og:image: Take a 1200×630px screenshot of the deployed portfolio,
+    save it as og-image.jpg in your repo root, then uncomment:
+    <meta property="og:image" content="https://prince-kalu-portfolio-3p8f.vercel.app/og-image.jpg" />
+  -->
+
+  <!-- ── Twitter / X card ── -->
+  <meta name="twitter:card"        content="summary" />
+  <meta name="twitter:title"       content="Prince Kalu Odoh | Frontend, AI/ML & Technology Systems" />
+  <meta name="twitter:description" content="Electrical & Electronics Engineering student building practical technology across frontend development, AI/ML, and digital systems." />
 
   <!-- ── Fonts: IBM Plex Sans + IBM Plex Mono ── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -48,7 +65,7 @@
       /* ── Text ── */
       --text-1: #EFEFEB;   /* primary — warm near-white */
       --text-2: #888880;   /* secondary */
-      --text-3: #505048;   /* muted / placeholder */
+      --text-3: #6E6E66;   /* muted — improved from #505048 for better contrast */
 
       /* ── Typography ──
          IBM Plex Sans: engineering-instrument quality, not generic.
@@ -117,6 +134,7 @@
       /* Offset scroll so sticky nav doesn't cover section headings */
       scroll-padding-top: var(--nav-height);
       -webkit-text-size-adjust: 100%;
+      overflow-x: hidden; /* belt-and-braces with body overflow-x:hidden */
     }
 
     body {
@@ -1650,6 +1668,41 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════
+       PHASE 8 — RESPONSIVE + ACCESSIBILITY POLISH
+    ═══════════════════════════════════════════════════════════════ */
+
+    /* Project card visual area: use aspect-ratio on mobile so the SVG
+       and img have a definite, responsive height without magic numbers.
+       16/9 at 380px ≈ 214px — visible without being too tall. */
+    @media (max-width: 639px) {
+      .project-card__visual {
+        aspect-ratio: 16 / 9;
+        height: auto;
+        min-height: unset;
+      }
+    }
+
+    /* Prevent long words and URLs from causing horizontal overflow.
+       Relevant for the email address in contact cards on narrow screens. */
+    .project-card__desc,
+    .project-card__problem,
+    .project-card__note,
+    .about__bio p,
+    .exp__desc,
+    .edu__detail,
+    .contact__method-detail,
+    .footer__tagline {
+      overflow-wrap: break-word;
+    }
+
+    /* Very narrow screens < 380px — tighten hero heading
+       so it never clips on the smallest Android devices. */
+    @media (max-width: 380px) {
+      .hero__name    { font-size: 30px; }
+      .section-title { font-size: var(--text-2xl); }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
        REDUCED MOTION
        Every animation and transition respects this.
        Added now so all future phases inherit it automatically.
@@ -2617,12 +2670,17 @@
       toggle.setAttribute('aria-expanded', 'true');
       mobileNav.classList.add('is-open');
       document.body.classList.add('menu-open');
+      // Move focus into menu so keyboard users don't tab into hidden page
+      const firstLink = mobileNav.querySelector('.nav__mobile-link');
+      if (firstLink) firstLink.focus();
     }
 
     function closeMenu() {
       toggle.setAttribute('aria-expanded', 'false');
       mobileNav.classList.remove('is-open');
       document.body.classList.remove('menu-open');
+      // Return focus to toggle so keyboard users aren't lost
+      toggle.focus();
     }
 
     toggle.addEventListener('click', () => {
@@ -2632,9 +2690,26 @@
     // Close when a mobile link is tapped
     mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
 
-    // Close on Escape
+    // Keyboard: Escape closes; Tab is trapped inside the open menu
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeMenu();
+      if (e.key === 'Escape') {
+        closeMenu();
+        return;
+      }
+
+      // Focus trap — only active when mobile menu is open
+      if (!mobileNav.classList.contains('is-open') || e.key !== 'Tab') return;
+      const focusable = Array.from(mobileNav.querySelectorAll('.nav__mobile-link'));
+      const first = focusable[0];
+      const last  = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     });
 
     /* ── Active link on scroll ────────────── */
@@ -2650,10 +2725,15 @@
         navLinks.forEach(link => {
           const isMatch = link.getAttribute('href') === '#' + id;
           link.classList.toggle('is-active', isMatch);
+          // aria-current tells screen readers which section is currently active
+          if (isMatch) {
+            link.setAttribute('aria-current', 'true');
+          } else {
+            link.removeAttribute('aria-current');
+          }
         });
       });
     }, {
-      // Fire when the section's top reaches 40% from the top of viewport
       rootMargin: '-40% 0px -55% 0px',
       threshold: 0
     });
