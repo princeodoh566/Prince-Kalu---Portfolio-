@@ -679,6 +679,188 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════
+       SCROLL REVEAL — used by Phase 3 onwards
+       Elements with .reveal start hidden (opacity 0, shifted down).
+       JS adds .is-visible when they enter the viewport.
+       unobserve() after reveal so it only fires once per element.
+       transition-delay can be set inline for stagger effects.
+    ═══════════════════════════════════════════════════════════════ */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       ABOUT + CURRENT FOCUS — Phase 3
+    ═══════════════════════════════════════════════════════════════ */
+
+    /* Two-column grid: bio text (wider left) + sidebar (narrower right) */
+    .about__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-10);
+      margin-bottom: var(--sp-16);
+    }
+
+    @media (min-width: 768px) {
+      .about__grid {
+        grid-template-columns: 1fr 256px;
+        gap: var(--sp-12);
+        align-items: start;
+      }
+    }
+
+    /* Bio paragraphs — 300 weight keeps it light and readable */
+    .about__bio p {
+      font-size: var(--text-base);
+      font-weight: 300;
+      color: var(--text-2);
+      line-height: 1.85;
+      max-width: 60ch;
+    }
+
+    .about__bio p + p {
+      margin-top: var(--sp-4);
+    }
+
+    /* Sidebar: <dl> for semantic key-value facts.
+       Using <dl>/<dt>/<dd> because this IS a description list —
+       screen readers understand the relationship correctly. */
+    .about__facts {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-5);
+    }
+
+    .about__fact {
+      padding: var(--sp-3) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about__fact:first-child { padding-top: 0; }
+    .about__fact:last-child  { padding-bottom: 0; border-bottom: none; }
+
+    .about__fact dt {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-3);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .about__fact dd {
+      font-size: var(--text-sm);
+      font-weight: 400;
+      color: var(--text-2);
+      line-height: 1.5;
+    }
+
+    /* Thin rule separating About bio from Currently Building */
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin-block: var(--sp-16);
+    }
+
+    /* Currently Building — h3 within the About section */
+    .focus__heading {
+      font-size: clamp(var(--text-xl), 3vw, var(--text-2xl));
+      font-weight: 600;
+      color: var(--text-1);
+      margin-bottom: var(--sp-2);
+    }
+
+    .focus__sub {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--text-3);
+      margin-bottom: var(--sp-10);
+    }
+
+    /* Three-column grid — stacks on mobile */
+    .focus__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-8);
+    }
+
+    @media (min-width: 640px) {
+      .focus__grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Focus item: top-border as the visual anchor, no card background.
+       Lighter than a project card — these are states, not deliverables. */
+    .focus__item {
+      padding-top: var(--sp-5);
+      border-top: 2px solid var(--border);
+      transition: border-color var(--t-base);
+    }
+
+    .focus__item:hover {
+      border-top-color: var(--accent);
+    }
+
+    /* Status indicator: coloured dot + label */
+    .focus__status {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      margin-bottom: var(--sp-3);
+    }
+
+    .focus__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--text-3);
+    }
+
+    .focus__dot--active    { background: #4ade80; }       /* green  */
+    .focus__dot--exploring { background: var(--accent); } /* amber  */
+
+    .focus__status-text {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-3);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .focus__item-title {
+      font-size: var(--text-lg);
+      font-weight: 500;
+      color: var(--text-1);
+      margin-bottom: var(--sp-3);
+      line-height: 1.25;
+    }
+
+    .focus__desc {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--text-2);
+      line-height: 1.75;
+      margin-bottom: var(--sp-4);
+    }
+
+    .focus__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
        REDUCED MOTION
        Every animation and transition respects this.
        Added now so all future phases inherit it automatically.
@@ -870,9 +1052,144 @@
       </div>
     </section>
 
-    <section id="about" class="ph-section">
+    <!-- ════════════════════════════════════════════════════════════
+         ABOUT + CURRENT FOCUS — Phase 3
+    ════════════════════════════════════════════════════════════ -->
+    <section id="about" class="section" style="border-bottom: 1px solid var(--border);">
       <div class="container">
-        <p class="ph-label">[ about + current focus — coming in phase 3 ]</p>
+
+        <!-- Section header -->
+        <div class="section-header reveal">
+          <h2 class="section-title">About</h2>
+        </div>
+
+        <!-- Bio text + quick facts sidebar -->
+        <div class="about__grid">
+
+          <!-- Bio: three paragraphs, each making a distinct point -->
+          <div class="about__bio reveal">
+            <p>
+              I'm a 400-level Electrical &amp; Electronics Engineering student
+              at Michael Okpara University of Agriculture, Umudike. My degree
+              teaches me how physical systems work — circuits, power, control.
+              Alongside it, I'm deliberately building software and AI skills,
+              because the most interesting problems I see sit at the point where
+              both worlds meet.
+            </p>
+            <p>
+              I don't build projects for the sake of tutorials. StreetKash
+              started from a real connectivity problem at a bus terminal. The
+              Nollywood recommender came from wondering whether an AI could
+              actually understand local film taste. The church website came from
+              a real community that needed one. The answers aren't always
+              polished, but they're grounded.
+            </p>
+            <p>
+              I build entirely from an Android phone — Acode, Termux, GitHub,
+              Vercel. That constraint has shaped how I approach work: start with
+              what functions, understand why it functions, then improve from
+              there.
+            </p>
+          </div>
+
+          <!-- Sidebar: semantic <dl> for key-value facts -->
+          <aside class="reveal" style="transition-delay: 0.1s;" aria-label="Quick facts">
+            <dl class="about__facts">
+              <div class="about__fact">
+                <dt>Currently studying</dt>
+                <dd>Electrical &amp; Electronics Engineering</dd>
+              </div>
+              <div class="about__fact">
+                <dt>Institution</dt>
+                <dd>MOUAU — 400 Level · Class of 2028</dd>
+              </div>
+              <div class="about__fact">
+                <dt>Based in</dt>
+                <dd>Umuahia, Abia State — Nigeria</dd>
+              </div>
+              <div class="about__fact">
+                <dt>Active programs</dt>
+                <dd>TS Academy · 3MTT NextGen</dd>
+              </div>
+              <div class="about__fact">
+                <dt>Build environment</dt>
+                <dd>Acode · Termux · GitHub · Vercel</dd>
+              </div>
+            </dl>
+          </aside>
+
+        </div>
+
+        <!-- Visual separator between About and Currently Building -->
+        <div class="section-divider"></div>
+
+        <!-- Currently Building -->
+        <div class="reveal">
+          <h3 class="focus__heading">Currently building</h3>
+          <p class="focus__sub">Three areas in active development — in parallel.</p>
+        </div>
+
+        <div class="focus__grid">
+
+          <!-- Frontend Development -->
+          <div class="focus__item reveal">
+            <div class="focus__status">
+              <span class="focus__dot focus__dot--active" aria-hidden="true"></span>
+              <span class="focus__status-text">Active</span>
+            </div>
+            <h4 class="focus__item-title">Frontend Development</h4>
+            <p class="focus__desc">
+              Strengthening HTML, CSS, JavaScript, and React through TS Academy
+              and practical project work. Building real pages, not just exercises.
+            </p>
+            <div class="focus__tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">React (learning)</span>
+            </div>
+          </div>
+
+          <!-- AI / ML -->
+          <div class="focus__item reveal" style="transition-delay: 0.12s;">
+            <div class="focus__status">
+              <span class="focus__dot focus__dot--active" aria-hidden="true"></span>
+              <span class="focus__status-text">Active</span>
+            </div>
+            <h4 class="focus__item-title">AI / ML</h4>
+            <p class="focus__desc">
+              Building practical AI applications and strengthening machine
+              learning fundamentals through the 3MTT NextGen Fellowship and
+              direct project work.
+            </p>
+            <div class="focus__tags">
+              <span class="tag">Python</span>
+              <span class="tag">Machine Learning</span>
+              <span class="tag">AI APIs</span>
+            </div>
+          </div>
+
+          <!-- Technology Systems -->
+          <div class="focus__item reveal" style="transition-delay: 0.24s;">
+            <div class="focus__status">
+              <span class="focus__dot focus__dot--exploring" aria-hidden="true"></span>
+              <span class="focus__status-text">Exploring</span>
+            </div>
+            <h4 class="focus__item-title">Technology Systems</h4>
+            <p class="focus__desc">
+              Networking, digital infrastructure, embedded systems — exploring
+              how software interacts with physical environments and hardware
+              constraints.
+            </p>
+            <div class="focus__tags">
+              <span class="tag">Networking</span>
+              <span class="tag">Embedded</span>
+              <span class="tag">IoT</span>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </section>
 
@@ -970,6 +1287,22 @@
     });
 
     sections.forEach(s => sectionObserver.observe(s));
+
+    /* ── Scroll reveal ────────────────────── */
+    // Watches every .reveal element. When it enters the viewport,
+    // adds .is-visible to trigger the CSS transition.
+    // unobserve() immediately after — each element reveals once only.
+    const revealEls = document.querySelectorAll('.reveal');
+
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.08 });
+
+    revealEls.forEach(el => revealObserver.observe(el));
   </script>
 
 </body>
