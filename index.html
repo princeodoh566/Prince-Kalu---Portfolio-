@@ -861,6 +861,97 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════
+       SKILLS — Phase 4
+       Three groups: Working With / Currently Learning / Exploring.
+       Row layout: label column left, areas + tags right.
+       Deliberately different from Phase 3's column grid —
+       rows feel like a technical spec rather than another card set.
+    ═══════════════════════════════════════════════════════════════ */
+
+    .skills__rows {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Each group is a full-width row */
+    .skills__row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-5);
+      padding-block: var(--sp-8);
+      border-top: 1px solid var(--border);
+    }
+
+    .skills__row:last-child {
+      border-bottom: 1px solid var(--border);
+    }
+
+    @media (min-width: 640px) {
+      .skills__row {
+        grid-template-columns: 180px 1fr;
+        gap: var(--sp-10);
+        align-items: start;
+      }
+    }
+
+    /* Left column: group name + brief description */
+    .skills__row-name {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      font-weight: 400;
+      color: var(--text-1);
+      margin-bottom: var(--sp-2);
+      display: block;
+    }
+
+    .skills__row-desc {
+      font-size: var(--text-xs);
+      font-weight: 300;
+      color: var(--text-3);
+      line-height: 1.65;
+    }
+
+    /* Right column: one or more sub-areas */
+    .skills__areas {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-5);
+    }
+
+    .skills__area-name {
+      display: block;
+      font-size: var(--text-xs);
+      font-weight: 400;
+      color: var(--text-3);
+      margin-bottom: var(--sp-2);
+    }
+
+    .skills__area-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+    }
+
+    /* ── Tag variants for the three skill states ──
+       .tag (default) is defined in Phase 1: solid surface, text-2
+       These extend it to show Working / Learning / Exploring status.
+    ── */
+
+    /* Currently Learning: amber-tinted — signals active investment */
+    .tag--learning {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-color: transparent;
+    }
+
+    /* Exploring: ghost — signals interest, not claimed ability */
+    .tag--explore {
+      background: transparent;
+      color: var(--text-3);
+      border-color: var(--border);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
        REDUCED MOTION
        Every animation and transition respects this.
        Added now so all future phases inherit it automatically.
@@ -1205,9 +1296,126 @@
       </div>
     </section>
 
-    <section id="skills" class="ph-section">
+    <!-- ════════════════════════════════════════════════════════════
+         SKILLS — Phase 4
+    ════════════════════════════════════════════════════════════ -->
+    <section id="skills" class="section" style="border-bottom: 1px solid var(--border);">
       <div class="container">
-        <p class="ph-label">[ skills — coming in phase 4 ]</p>
+
+        <div class="section-header reveal">
+          <h2 class="section-title">Skills</h2>
+          <p class="section-sub">
+            Organized by what I'm actually doing with each — not by claimed expertise level.
+          </p>
+        </div>
+
+        <div class="skills__rows">
+
+          <!-- ── Working With ── -->
+          <div class="skills__row reveal">
+
+            <div class="skills__row-label">
+              <span class="skills__row-name">Working With</span>
+              <p class="skills__row-desc">
+                Technologies I use in active project work and can demonstrate.
+              </p>
+            </div>
+
+            <div class="skills__areas">
+
+              <div class="skills__area">
+                <span class="skills__area-name">Frontend</span>
+                <div class="skills__area-tags">
+                  <span class="tag">HTML</span>
+                  <span class="tag">CSS</span>
+                  <span class="tag">JavaScript</span>
+                </div>
+              </div>
+
+              <div class="skills__area">
+                <span class="skills__area-name">AI + ML</span>
+                <div class="skills__area-tags">
+                  <span class="tag">Python</span>
+                  <span class="tag">AI APIs</span>
+                </div>
+              </div>
+
+              <div class="skills__area">
+                <span class="skills__area-name">Tools &amp; Deployment</span>
+                <div class="skills__area-tags">
+                  <span class="tag">Git</span>
+                  <span class="tag">GitHub</span>
+                  <span class="tag">Vercel</span>
+                  <span class="tag">Supabase</span>
+                  <span class="tag">Acode</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── Currently Learning ── -->
+          <div class="skills__row reveal" style="transition-delay: 0.1s;">
+
+            <div class="skills__row-label">
+              <span class="skills__row-name">Currently Learning</span>
+              <p class="skills__row-desc">
+                In structured programs and active project learning.
+                Building toward confident use.
+              </p>
+            </div>
+
+            <div class="skills__areas">
+
+              <div class="skills__area">
+                <span class="skills__area-name">Frontend</span>
+                <div class="skills__area-tags">
+                  <span class="tag tag--learning">TypeScript</span>
+                  <span class="tag tag--learning">React</span>
+                  <span class="tag tag--learning">Next.js</span>
+                </div>
+              </div>
+
+              <div class="skills__area">
+                <span class="skills__area-name">AI + ML</span>
+                <div class="skills__area-tags">
+                  <span class="tag tag--learning">Machine Learning</span>
+                  <span class="tag tag--learning">Model Integration</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── Exploring ── -->
+          <div class="skills__row reveal" style="transition-delay: 0.2s;">
+
+            <div class="skills__row-label">
+              <span class="skills__row-name">Exploring</span>
+              <p class="skills__row-desc">
+                Building conceptual understanding. These are interests and
+                directions — not claimed professional skills.
+              </p>
+            </div>
+
+            <div class="skills__areas">
+
+              <div class="skills__area">
+                <span class="skills__area-name">Technology Systems</span>
+                <div class="skills__area-tags">
+                  <span class="tag tag--explore">Networking</span>
+                  <span class="tag tag--explore">Digital Infrastructure</span>
+                  <span class="tag tag--explore">Embedded Systems</span>
+                  <span class="tag tag--explore">IoT</span>
+                  <span class="tag tag--explore">Hardware/Software Integration</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div><!-- /skills__rows -->
+
       </div>
     </section>
 
